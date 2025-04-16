@@ -1,0 +1,24 @@
+{
+  "name": "fiber-reload",
+  "description": "A simple reload server for Fiber ⚡️",
+  "keywords": [
+    "AJAX",
+    "HTML",
+    "Fiber"
+  ],
+  "homepage": "https://github.com/katalaxie/fiber-reload",
+  "bugs": {
+    "url": "https://github.com/katalaxie/fiber-reload/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "*.js*"
+  ],
+  "main": "reload.js",
+  "unpkg": "reload.js",
+  "devDependencies": {
+    "esbuild": "0.25.0"
+  }
+}
