@@ -1,5 +1,6 @@
 {
   "name": "fiber-reload",
+  "version": "0.9.0",
   "description": "A simple reload server for Fiber ⚡️",
   "keywords": [
     "AJAX",
