@@ -18,7 +18,7 @@ import (
 // other packages.
 type contextKey int
 
-// The keys for the values in context
+// The keys for the values in context.
 const (
 	envCtx contextKey = iota
 )
@@ -26,27 +26,27 @@ const (
 const (
 	// Noop is a no-op function.
 	Noop = "noop"
-	// Environment environment
+	// Environment environment.
 	Development = "development"
-	// Testing environment
+	// Testing environment.
 	Testing = "testing"
-	// Staging environment
+	// Staging environment.
 	Staging = "staging"
-	// Production environment
+	// Production environment.
 	Production = "production"
 )
 
 var id = conv.Bytes(uuid.New().String())
 
-// DefaultIdGenerator generates a new UUID.
-func DefaultIdGenerator() []byte {
+// DefaultIDGenerator generates a new UUID.
+func DefaultIDGenerator() []byte {
 	return id
 }
 
 // Config ...
 type Config struct {
-	// IdGenerator
-	IdGenerator func() []byte
+	// IDGenerator
+	IDGenerator func() []byte
 
 	// Next defines a function to skip this middleware when returned true.
 	Next func(c *fiber.Ctx) bool
@@ -54,7 +54,7 @@ type Config struct {
 
 // ConfigDefault is the default config.
 var ConfigDefault = Config{
-	IdGenerator: DefaultIdGenerator,
+	IDGenerator: DefaultIDGenerator,
 }
 
 // WithHotReload is a middleware that enables a live reload of a site.
@@ -84,7 +84,7 @@ func Reload(config ...Config) fiber.Handler {
 				break
 			}
 
-			err = c.WriteMessage(websocket.TextMessage, cfg.IdGenerator())
+			err = c.WriteMessage(websocket.TextMessage, cfg.IDGenerator())
 			if err != nil {
 				break
 			}
@@ -92,7 +92,7 @@ func Reload(config ...Config) fiber.Handler {
 	})
 }
 
-// Helper function to set default values
+// Helper function to set default values.
 func configDefault(config ...Config) Config {
 	if len(config) < 1 {
 		return ConfigDefault
