@@ -53,7 +53,7 @@ func (w *webSrv) Start(_ context.Context, _ server.ReadyFunc, _ server.RunFunc) 
 
 		err := app.Listen(cfg.Flags.Addr)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
 		return nil

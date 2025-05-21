@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/google/uuid"
 	"github.com/katallaxie/pkg/conv"
+	"github.com/katallaxie/pkg/utilx"
 )
 
 // The contextKey type is unexported to prevent collisions with context keys defined in
@@ -80,12 +81,12 @@ func Reload(config ...Config) fiber.Handler {
 	return websocket.New(func(c *websocket.Conn) {
 		for {
 			_, _, err := c.ReadMessage()
-			if err != nil {
+			if utilx.NotEmpty(err) {
 				break
 			}
 
 			err = c.WriteMessage(websocket.TextMessage, cfg.IDGenerator())
-			if err != nil {
+			if utilx.NotEmpty(err) {
 				break
 			}
 		}
