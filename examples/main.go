@@ -5,11 +5,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/fiber/v2/middleware/requestid"
-	reload "github.com/katallaxie/fiber-reload"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/recover"
+	"github.com/gofiber/fiber/v3/middleware/requestid"
+	"github.com/gofiber/fiber/v3/middleware/static"
+	reload "github.com/katallaxie/fiber-reload/v3"
 	"github.com/katallaxie/pkg/server"
 	"github.com/spf13/cobra"
 )
@@ -49,7 +50,7 @@ func (w *webSrv) Start(_ context.Context, _ server.ReadyFunc, _ server.RunFunc) 
 		app.Use(recover.New())
 
 		reload.WithHotReload(app)
-		app.Static("/", ".")
+		app.Use(("/"), static.New("."))
 
 		err := app.Listen(cfg.Flags.Addr)
 		if err != nil {

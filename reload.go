@@ -5,11 +5,10 @@ package reload
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/gofiber/contrib/websocket"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/static"
 	"github.com/google/uuid"
 	"github.com/katallaxie/pkg/conv"
 	"github.com/katallaxie/pkg/utilx"
@@ -60,15 +59,17 @@ var ConfigDefault = Config{
 
 // WithHotReload is a middleware that enables a live reload of a site.
 func WithHotReload(app *fiber.App, config ...Config) {
-	app.Use("/ws", func(c *fiber.Ctx) error {
+	app.Use("/ws", func(c fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(c) {
 			return c.Next()
 		}
+
 		return fiber.ErrUpgradeRequired
 	})
 
-	app.Use("/static", filesystem.New(filesystem.Config{
-		Root: http.FS(FS),
+	app.Use("/static", static.New("", static.Config{
+		FS:     FS,
+		Browse: true,
 	}))
 
 	app.Get("/ws/reload", Reload(config...))
@@ -107,7 +108,7 @@ func configDefault(config ...Config) Config {
 
 // Environment is a middleware that sets the environment context.
 func Environment(env string) fiber.Handler {
-	return func(c *fiber.Ctx) error {
+	return func(c fiber.Ctx) error {
 		err := SetEnvironmentContext(c, env)
 		if err != nil {
 			return err
@@ -118,11 +119,9 @@ func Environment(env string) fiber.Handler {
 }
 
 // SetEnvironmentContext sets the environment context.
-func SetEnvironmentContext(c *fiber.Ctx, env string) error {
-	userCtx := c.UserContext()
-
-	envCtx := context.WithValue(userCtx, envCtx, env)
-	c.SetUserContext(envCtx)
+func SetEnvironmentContext(c fiber.Ctx, env string) error {
+	envCtx := context.WithValue(c, envCtx, env)
+	c.SetContext(envCtx)
 
 	return nil
 }

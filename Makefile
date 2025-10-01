@@ -2,10 +2,15 @@
 
 # Go variables
 GO 					?= go
-GO_RELEASER 		?= goreleaser
+GO_RELEASER 		?= $(GO_TOOL) github.com/goreleaser/goreleaser
+GO_LINT 			?= $(GO_TOOL) github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 GO_TOOL 			?= $(GO) tool
 GO_TEST 			?= $(GO_TOOL) gotest.tools/gotestsum --format pkgname
 
+.PHONY: start
+start: ## Start the service.
+	$(GO_TOOL) github.com/air-verse/air -c examples/air.toml
+	
 .PHONY: build
 build: ## Build the binary file.
 	$(GO_RELEASER) build --snapshot --clean
