@@ -15,7 +15,7 @@ require (
 	github.com/gofiber/fiber/v3 v3.0.0-rc.3
 	github.com/google/uuid v1.6.0
 	github.com/katallaxie/pkg v0.7.10
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 )
 
 require (
